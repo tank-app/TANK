@@ -1126,6 +1126,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerFlag: 1
+  bulletPrefab: {fileID: 3181653842172413539, guid: 0ffe15d96fd67d04db2b552199535cca,
+    type: 3}
+  bulletLimit: 5
+  mineLimit: 2
+  bulletSpeed: 42
+  ricochet: 2
 --- !u!54 &1324680552538683818
 Rigidbody:
   m_ObjectHideFlags: 0
