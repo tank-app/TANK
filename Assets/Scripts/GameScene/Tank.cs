@@ -3,20 +3,20 @@ using UnityEngine;
 
 public class Tank : MonoBehaviour
 {
-    private Transform bodyTransform; //bodyオブジェクトのTransformコンポーネント情報
-    private Transform tarrotTransform; //tarrotオブジェクトのTransformコンポーネント情報
-    private Transform pointerPos; //pointerの3D座標把握用オブジェクトのTransform
-    private Transform shotPoint; //弾発射座標用Transform
     public bool playerFlag = false; //プレイヤー操作を受け付けるか否か
-    private GameObject[] bullet; //弾オブジェクト情報の格納
-    private GameObject[] mine; //地雷プレハブオブジェクトの格納
     public GameObject bulletPrefab; //弾プレハブオブジェクトの格納
     public GameObject minePrefab; //地雷プレハブオブジェクトの格納
-    private Bullet bulletScript; //弾のスクリプト情報
     public int bulletLimit; //発射可能弾数
     public int mineLimit; //地雷設置可能数
     public float bulletSpeed = 15f; //発射される弾のスピード
     public int ricochet; //跳弾回数
+    private Transform bodyTransform; //bodyオブジェクトのTransformコンポーネント情報
+    private Transform tarrotTransform; //tarrotオブジェクトのTransformコンポーネント情報
+    private Transform pointerPos; //pointerの3D座標把握用オブジェクトのTransform
+    private Transform shotPoint; //弾発射座標用Transform
+    private GameObject[] bullet; //弾オブジェクト情報の格納
+    private GameObject[] mine; //地雷プレハブオブジェクトの格納
+    private Bullet bulletScript; //弾のスクリプト情報
     private float t_radian; //現在のTarrotの向き
 
     void Start()
@@ -66,7 +66,7 @@ public class Tank : MonoBehaviour
                 bullet[i] = Instantiate(bulletPrefab, new Vector3(x, 0, z), new Quaternion(0, 0, 0, 0)); //配列の空き番号に弾を格納
                 bulletScript = bullet[i].GetComponent<Bullet>(); //発射した弾のスクリプト情報を取得
                 bulletScript.Shot(speed, radian, rico); //発射関数実行
-                Debug.Log("bullet " + i + " instantiated succesfully!"); //ログ
+                //Debug.Log("bullet " + i + " instantiated succesfully!"); //ログ
                 break; //発射できた場合は，追加検索を行わない
             }
         }
@@ -79,12 +79,9 @@ public class Tank : MonoBehaviour
             if (mine[i] == null) //地雷の設置数が限度に達していないか確認
             {
                 mine[i] = Instantiate(minePrefab, new Vector3(x, 0, z), new Quaternion(0, 0, 0, 0)); //配列の空き番号に地雷を格納
-                //bulletScript = bullet[i].GetComponent<Bullet>(); //発射した弾のスクリプト情報を取得
-                //bulletScript.Shot(speed, radian, rico); //発射関数実行
-                Debug.Log("mine " + i + " instantiated succesfully!"); //ログ
+                //Debug.Log("mine " + i + " instantiated succesfully!"); //ログ
                 break; //設置できた場合は，追加検索を行わない
             }
         }
     }
-
 }
