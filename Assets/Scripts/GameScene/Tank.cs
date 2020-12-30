@@ -11,6 +11,7 @@ public class Tank : MonoBehaviour
     private GameObject[] bullet; //弾オブジェクト情報の格納
     private GameObject[] mine; //地雷プレハブオブジェクトの格納
     public GameObject bulletPrefab; //弾プレハブオブジェクトの格納
+    public GameObject minePrefab; //地雷プレハブオブジェクトの格納
     private Bullet bulletScript; //弾のスクリプト情報
     public int bulletLimit; //発射可能弾数
     public int mineLimit; //地雷設置可能数
@@ -34,10 +35,15 @@ public class Tank : MonoBehaviour
         {
             TarrotBetweenPointer();
             if (Input.GetMouseButtonDown(0)) //左クリック
-                MakeBullet(shotPoint.position.x, shotPoint.position.z, bulletSpeed, t_radian, ricochet);
+                MakeBullet(shotPoint.position.x, shotPoint.position.z, bulletSpeed, t_radian, ricochet); //弾発射
             if (Input.GetMouseButtonDown(1)) //右クリック
                 Debug.Log("Pressed secondary button."); //地雷設置関数
         }
+    }
+
+    void OnCollisionEnter(Collision collision) //他オブジェクトとの衝突をみる
+    {
+        if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Blast") Destroy(this.gameObject); //破壊
     }
 
     void TarrotBetweenPointer() //TarrotとPointerとの角度を計算
@@ -48,10 +54,10 @@ public class Tank : MonoBehaviour
     }
     void TurnTarrot(float radian) //角度（radian）を引数にTarrotを回転
     {
-        tarrotTransform.localRotation = Quaternion.Euler(-90f, 0f, -radian + 90f); //回転処理（進行方向）
+        tarrotTransform.localRotation = Quaternion.Euler(-90f, 0f, -radian + 90f); //回転処理
     }
 
-    void MakeBullet(float x, float z, float speed, float radian, int rico)
+    void MakeBullet(float x, float z, float speed, float radian, int rico) //弾を発射する
     {
         for (int i = 0; i < bulletLimit; i++)
         {
@@ -65,4 +71,20 @@ public class Tank : MonoBehaviour
             }
         }
     }
+
+    void MakeMine(float x, float z)
+    {
+        for (int i = 0; i < mineLimit; i++)
+        {
+            if (mine[i] == null) //地雷の設置数が限度に達していないか確認
+            {
+                mine[i] = Instantiate(minePrefab, new Vector3(x, 0, z), new Quaternion(0, 0, 0, 0)); //配列の空き番号に地雷を格納
+                //bulletScript = bullet[i].GetComponent<Bullet>(); //発射した弾のスクリプト情報を取得
+                //bulletScript.Shot(speed, radian, rico); //発射関数実行
+                Debug.Log("mine " + i + " instantiated succesfully!"); //ログ
+                break; //設置できた場合は，追加検索を行わない
+            }
+        }
+    }
+
 }
