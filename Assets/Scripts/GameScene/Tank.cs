@@ -12,12 +12,16 @@ public class Tank : MonoBehaviour
     public int ricochet; //跳弾回数
     private Transform bodyTransform; //bodyオブジェクトのTransformコンポーネント情報
     private Transform tarrotTransform; //tarrotオブジェクトのTransformコンポーネント情報
-    private Transform pointerPos; //pointerの3D座標把握用オブジェクトのTransform
-    private Transform shotPoint; //弾発射座標用Transform
+    private Transform pointerPos; //pointerの3D座標把握用オブジェクトのTransformコンポーネント情報
+    private Transform shotPoint; //弾発射座標用Transformコンポーネント情報
     private GameObject[] bullet; //弾オブジェクト情報の格納
     private GameObject[] mine; //地雷プレハブオブジェクトの格納
     private Bullet bulletScript; //弾のスクリプト情報
     private float t_radian; //現在のTarrotの向き
+    private bool upMoveFlag = false; //上移動フラグ
+    private bool rightMoveFlag = false; //右移動フラグ
+    private bool leftMoveFlag = false; //左移動フラグ
+    private bool downMoveFlag = false; //下移動フラグ
 
     void Start()
     {
@@ -25,8 +29,8 @@ public class Tank : MonoBehaviour
         mine = new GameObject[mineLimit]; //指定個数分のインスタンスを生成
         bodyTransform = this.transform.Find("Body").GetComponent<Transform>(); //BodyオブジェクトのTransformコンポーネント情報を取得
         tarrotTransform = this.transform.Find("Tarrot").GetComponent<Transform>(); //BatteryオブジェクトのTransformコンポーネント情報を取得
-        shotPoint = this.transform.Find("Tarrot").Find("Canon").Find("ShotPoint").GetComponent<Transform>();
-        if (playerFlag) pointerPos = GameObject.Find("PointerPosition3D").GetComponent<Transform>();
+        shotPoint = this.transform.Find("Tarrot").Find("Canon").Find("ShotPoint").GetComponent<Transform>(); //先端の発射ポイントオブジェクトのTransformコンポーネント情報を取得
+        if (playerFlag) pointerPos = GameObject.Find("PointerPosition3D").GetComponent<Transform>(); //pointerの3D座標把握用オブジェクトのTransformコンポーネント情報を取得
     }
 
     void Update()
@@ -38,6 +42,22 @@ public class Tank : MonoBehaviour
                 MakeBullet(shotPoint.position.x, shotPoint.position.z, bulletSpeed, t_radian, ricochet); //弾発射
             if (Input.GetMouseButtonDown(1)) //右クリック
                 Debug.Log("Pressed secondary button."); //地雷設置関数
+            if (Input.GetKeyDown(KeyCode.W)) //Wキー
+                upMoveFlag = true;
+            if (Input.GetKeyUp(KeyCode.W)) //Wキー離す
+                upMoveFlag = false;
+            if (Input.GetKeyDown(KeyCode.S)) //Sキー
+                downMoveFlag = true;
+            if (Input.GetKeyUp(KeyCode.S)) //Sキー離す
+                downMoveFlag = false;
+            if (Input.GetKeyDown(KeyCode.A)) //Aキー
+                leftMoveFlag = true;
+            if (Input.GetKeyUp(KeyCode.A)) //Aキー離す
+                leftMoveFlag = false;
+            if (Input.GetKeyDown(KeyCode.D)) //Dキー
+                rightMoveFlag = true;
+            if (Input.GetKeyUp(KeyCode.D)) //Dキー離す
+                rightMoveFlag = false;
         }
     }
 
