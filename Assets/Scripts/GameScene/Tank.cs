@@ -38,6 +38,7 @@ public class Tank : MonoBehaviour
         if (playerFlag)
         {
             TarrotBetweenPointer();
+            MoveTank();
             if (Input.GetMouseButtonDown(0)) //左クリック
                 MakeBullet(shotPoint.position.x, shotPoint.position.z, bulletSpeed, t_radian, ricochet); //弾発射
             if (Input.GetMouseButtonDown(1)) //右クリック
@@ -65,6 +66,33 @@ public class Tank : MonoBehaviour
     {
         if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Blast") Destroy(this.gameObject); //破壊
     }
+
+    void MoveTank()
+    {
+        if (upMoveFlag)
+            if (bodyTransform.localRotation.y == -90f)
+                this.transform.position += new Vector3(1f, 0, 0);
+            else
+                ;
+        if (upMoveFlag)
+            if (bodyTransform.localRotation.y == -90f)
+                this.transform.position += new Vector3(1f, 0, 0);
+            else
+                ;
+        if (upMoveFlag)
+            if (bodyTransform.localRotation.y == -90f)
+                this.transform.position += new Vector3(1f, 0, 0);
+            else
+                ;
+        if (upMoveFlag)
+            if (bodyTransform.localRotation.y == -90f)
+                this.transform.position += new Vector3(1f, 0, 0);
+            else
+                ;
+    }
+
+
+
 
     void TarrotBetweenPointer() //TarrotとPointerとの角度を計算
     {
