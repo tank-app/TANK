@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 17; i++)
             for (int j = 0; j < 22; j++)
-                Debug.Log(field[0][0]);
+                Debug.Log(field[i][j]);
     }
     void Start()
     {
