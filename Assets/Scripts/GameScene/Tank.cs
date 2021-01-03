@@ -102,7 +102,7 @@ public class Tank : MonoBehaviour
     }
     void TurnTarrot(float radian) //角度（radian）を引数にTarrotを回転
     {
-        tarrotTransform.localRotation = Quaternion.Euler(-90f, 0f, -radian + 90f); //回転処理
+        tarrotTransform.localRotation = Quaternion.Euler(-90f, 0f, -radian); //回転処理
     }
 
     void MakeBullet(float x, float z, float speed, float radian, int rico) //弾を発射する
