@@ -70,28 +70,37 @@ public class Tank : MonoBehaviour
     void MoveTank()
     {
         if (upMoveFlag)
-            if (bodyTransform.localRotation.y == -90f)
-                this.transform.position += new Vector3(1f, 0, 0);
+            if (bodyTransform.localRotation.y == -90f || bodyTransform.localRotation.y == 90f)
+                this.transform.position += new Vector3(0.1f, 0, 0);
             else
-                ;
-        if (upMoveFlag)
-            if (bodyTransform.localRotation.y == -90f)
-                this.transform.position += new Vector3(1f, 0, 0);
+                TurnTankBase();
+        if (downMoveFlag)
+            if (bodyTransform.localRotation.y == -90f || bodyTransform.localRotation.y == -90f)
+                this.transform.position -= new Vector3(0.1f, 0, 0);
             else
-                ;
-        if (upMoveFlag)
-            if (bodyTransform.localRotation.y == -90f)
-                this.transform.position += new Vector3(1f, 0, 0);
+                TurnTankBase();
+        if (leftMoveFlag)
+            if (bodyTransform.localRotation.y == 0f || bodyTransform.localRotation.y == 180f || bodyTransform.localRotation.y == -180f)
+                this.transform.position -= new Vector3(0.1f, 0, 0);
             else
-                ;
-        if (upMoveFlag)
-            if (bodyTransform.localRotation.y == -90f)
-                this.transform.position += new Vector3(1f, 0, 0);
+                TurnTankBase();
+        if (rightMoveFlag)
+            if (bodyTransform.localRotation.y == 0f || bodyTransform.localRotation.y == 180f || bodyTransform.localRotation.y == -180f)
+                this.transform.position += new Vector3(0.1f, 0, 0);
             else
-                ;
+                TurnTankBase();
     }
 
+    void TurnTankBase()
+    {
+        int dx = 0;
+        int dz = 0;
+        if (upMoveFlag) dz += 1;
+        if (downMoveFlag) dz -= 1;
+        if (leftMoveFlag) dx -= 1;
+        if (rightMoveFlag) dx += 1;
 
+    }
 
 
     void TarrotBetweenPointer() //TarrotとPointerとの角度を計算
