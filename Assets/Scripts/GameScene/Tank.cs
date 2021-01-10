@@ -67,7 +67,7 @@ public class Tank : MonoBehaviour
         if (collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "Blast") Destroy(this.gameObject); //破壊
     }
 
-    void MoveTank()
+    void MoveTank() // 要修正!!
     {
         if (upMoveFlag)
             if (bodyTransform.localRotation.y == -90f || bodyTransform.localRotation.y == 90f)
@@ -91,17 +91,23 @@ public class Tank : MonoBehaviour
                 TurnTankBase();
     }
 
-    void TurnTankBase()
+    void TurnTankBase() // 要修正!!
     {
         int dx = 0;
         int dz = 0;
+        float radian;
         if (upMoveFlag) dz += 1;
         if (downMoveFlag) dz -= 1;
         if (leftMoveFlag) dx -= 1;
         if (rightMoveFlag) dx += 1;
 
-    }
+        radian = (float)Math.Atan2(dz, dx); //回転方向のtan値計算
+        radian = radian * (float)(180 / Math.PI); //角度に変換
+        if (bodyTransform.localRotation.y != -radian + 90) //とりあえず
+            bodyTransform.localRotation = Quaternion.Euler(-90, bodyTransform.localRotation.y - 1, 0); //回転処理
 
+
+    }
 
     void TarrotBetweenPointer() //TarrotとPointerとの角度を計算
     {
