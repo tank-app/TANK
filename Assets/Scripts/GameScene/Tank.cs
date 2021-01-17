@@ -70,12 +70,12 @@ public class Tank : MonoBehaviour
     void MoveTank() // 要修正!!
     {
         if (upMoveFlag)
-            if (bodyTransform.localRotation.y == -90f || bodyTransform.localRotation.y == 90f)
+            if (bodyTransform.localRotation.y == -90f || bodyTransform.localRotation.y == 90f || bodyTransform.localRotation.y == -270f || bodyTransform.localRotation.y == 270f)
                 this.transform.position += new Vector3(0.1f, 0, 0);
             else
                 TurnTankBase();
         if (downMoveFlag)
-            if (bodyTransform.localRotation.y == -90f || bodyTransform.localRotation.y == -90f)
+            if (bodyTransform.localRotation.y == -90f || bodyTransform.localRotation.y == 90f || bodyTransform.localRotation.y == -270f || bodyTransform.localRotation.y == 270f)
                 this.transform.position -= new Vector3(0.1f, 0, 0);
             else
                 TurnTankBase();
@@ -89,6 +89,27 @@ public class Tank : MonoBehaviour
                 this.transform.position += new Vector3(0.1f, 0, 0);
             else
                 TurnTankBase();
+        if (rightMoveFlag && upMoveFlag)
+            if (bodyTransform.localRotation.y == 45f || bodyTransform.localRotation.y == -315f)
+                this.transform.position += new Vector3(0.1f / (float)Math.Sqrt(2), 0, 0.1f / (float)Math.Sqrt(2));
+            else
+                TurnTankBase();
+        if (rightMoveFlag && downMoveFlag)
+            if (bodyTransform.localRotation.y == -45f || bodyTransform.localRotation.y == 315f)
+                this.transform.position += new Vector3(0.1f / (float)Math.Sqrt(2), 0, -0.1f / (float)Math.Sqrt(2));
+            else
+                TurnTankBase();
+        if (leftMoveFlag && upMoveFlag)
+            if (bodyTransform.localRotation.y == 135f || bodyTransform.localRotation.y == -225f)
+                this.transform.position -= new Vector3(0.1f / (float)Math.Sqrt(2), 0, -0.1f / (float)Math.Sqrt(2));
+            else
+                TurnTankBase();
+        if (leftMoveFlag && downMoveFlag)
+            if (bodyTransform.localRotation.y == -135f || bodyTransform.localRotation.y == 225f)
+                this.transform.position -= new Vector3(0.1f / (float)Math.Sqrt(2), 0, 0.1f / (float)Math.Sqrt(2));
+            else
+                TurnTankBase();
+
     }
 
     void TurnTankBase() // 要修正!!
@@ -103,6 +124,10 @@ public class Tank : MonoBehaviour
 
         radian = (float)Math.Atan2(dz, dx); //回転方向のtan値計算
         radian = radian * (float)(180 / Math.PI); //角度に変換
+        Debug.Log(radian);
+
+        // ここに回転処理のみを書く（到達したフラグは不要）
+
         if (bodyTransform.localRotation.y != -radian + 90) //とりあえず
             bodyTransform.localRotation = Quaternion.Euler(-90, bodyTransform.localRotation.y - 1, 0); //回転処理
 
