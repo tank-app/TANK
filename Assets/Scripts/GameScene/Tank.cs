@@ -22,6 +22,7 @@ public class Tank : MonoBehaviour
     private bool rightMoveFlag = false; //右移動フラグ
     private bool leftMoveFlag = false; //左移動フラグ
     private bool downMoveFlag = false; //下移動フラグ
+    private int buttonCount = 0; // いくつのキーが押されているか
 
     void Start()
     {
@@ -35,10 +36,11 @@ public class Tank : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(bodyTransform.localEulerAngles);
         if (playerFlag)
         {
             TarrotBetweenPointer();
-            MoveTank();
+
             if (Input.GetMouseButtonDown(0)) //左クリック
                 MakeBullet(shotPoint.position.x, shotPoint.position.z, bulletSpeed, t_radian, ricochet); //弾発射
             if (Input.GetMouseButtonDown(1)) //右クリック
@@ -59,6 +61,8 @@ public class Tank : MonoBehaviour
                 rightMoveFlag = true;
             if (Input.GetKeyUp(KeyCode.D)) //Dキー離す
                 rightMoveFlag = false;
+
+            MoveTank();
         }
     }
 
@@ -69,52 +73,98 @@ public class Tank : MonoBehaviour
 
     void MoveTank() // 要修正!!
     {
-        if (upMoveFlag)
-            if (bodyTransform.localRotation.y == -90f || bodyTransform.localRotation.y == 90f || bodyTransform.localRotation.y == -270f || bodyTransform.localRotation.y == 270f)
-                this.transform.position += new Vector3(0.1f, 0, 0);
-            else
-                TurnTankBase();
-        if (downMoveFlag)
-            if (bodyTransform.localRotation.y == -90f || bodyTransform.localRotation.y == 90f || bodyTransform.localRotation.y == -270f || bodyTransform.localRotation.y == 270f)
-                this.transform.position -= new Vector3(0.1f, 0, 0);
-            else
-                TurnTankBase();
-        if (leftMoveFlag)
-            if (bodyTransform.localRotation.y == 0f || bodyTransform.localRotation.y == 180f || bodyTransform.localRotation.y == -180f)
-                this.transform.position -= new Vector3(0.1f, 0, 0);
-            else
-                TurnTankBase();
-        if (rightMoveFlag)
-            if (bodyTransform.localRotation.y == 0f || bodyTransform.localRotation.y == 180f || bodyTransform.localRotation.y == -180f)
-                this.transform.position += new Vector3(0.1f, 0, 0);
-            else
-                TurnTankBase();
-        if (rightMoveFlag && upMoveFlag)
-            if (bodyTransform.localRotation.y == 45f || bodyTransform.localRotation.y == -315f)
-                this.transform.position += new Vector3(0.1f / (float)Math.Sqrt(2), 0, 0.1f / (float)Math.Sqrt(2));
-            else
-                TurnTankBase();
-        if (rightMoveFlag && downMoveFlag)
-            if (bodyTransform.localRotation.y == -45f || bodyTransform.localRotation.y == 315f)
-                this.transform.position += new Vector3(0.1f / (float)Math.Sqrt(2), 0, -0.1f / (float)Math.Sqrt(2));
-            else
-                TurnTankBase();
-        if (leftMoveFlag && upMoveFlag)
-            if (bodyTransform.localRotation.y == 135f || bodyTransform.localRotation.y == -225f)
-                this.transform.position -= new Vector3(0.1f / (float)Math.Sqrt(2), 0, -0.1f / (float)Math.Sqrt(2));
-            else
-                TurnTankBase();
-        if (leftMoveFlag && downMoveFlag)
-            if (bodyTransform.localRotation.y == -135f || bodyTransform.localRotation.y == 225f)
-                this.transform.position -= new Vector3(0.1f / (float)Math.Sqrt(2), 0, 0.1f / (float)Math.Sqrt(2));
-            else
-                TurnTankBase();
+        buttonCount = 0;
+        if (rightMoveFlag) buttonCount++;
+        if (leftMoveFlag) buttonCount++;
+        if (upMoveFlag) buttonCount++;
+        if (downMoveFlag) buttonCount++;
 
+        if (buttonCount == 2)
+        {
+            if (rightMoveFlag && upMoveFlag)
+                if (bodyTransform.localEulerAngles.y == 45f || bodyTransform.localEulerAngles.y == 135f)
+                    this.transform.position += new Vector3(0.1f / (float)Math.Sqrt(2), 0, 0.1f / (float)Math.Sqrt(2));
+                else
+                    TurnTankBase(1);
+            else if (rightMoveFlag && downMoveFlag)
+                if (bodyTransform.localEulerAngles.y == 315f || bodyTransform.localEulerAngles.y == 135f)
+                    this.transform.position += new Vector3(0.1f / (float)Math.Sqrt(2), 0, -0.1f / (float)Math.Sqrt(2));
+                else
+                    TurnTankBase(7);
+            else if (leftMoveFlag && upMoveFlag)
+                if (bodyTransform.localEulerAngles.y == 135f || bodyTransform.localEulerAngles.y == 315f)
+                    this.transform.position -= new Vector3(0.1f / (float)Math.Sqrt(2), 0, -0.1f / (float)Math.Sqrt(2));
+                else
+                    TurnTankBase(3);
+            else if (leftMoveFlag && downMoveFlag)
+                if (bodyTransform.localEulerAngles.y == 225f || bodyTransform.localEulerAngles.y == 45f)
+                    this.transform.position -= new Vector3(0.1f / (float)Math.Sqrt(2), 0, 0.1f / (float)Math.Sqrt(2));
+                else
+                    TurnTankBase(5);
+        }
+        if (buttonCount == 1)
+        {
+            if (upMoveFlag)
+                if (bodyTransform.localEulerAngles.y == 90f || bodyTransform.localEulerAngles.y == 270f)
+                    this.transform.position += new Vector3(0, 0, 0.1f);
+                else
+                    TurnTankBase(2);
+            else if (downMoveFlag)
+                if (bodyTransform.localEulerAngles.y == 90f || bodyTransform.localEulerAngles.y == 270f)
+                    this.transform.position -= new Vector3(0, 0, 0.1f);
+                else
+                    TurnTankBase(6);
+            else if (leftMoveFlag)
+                if (bodyTransform.localEulerAngles.y == 0f || bodyTransform.localEulerAngles.y == 180f)
+                    this.transform.position -= new Vector3(0.1f, 0, 0);
+                else
+                    TurnTankBase(4);
+            else if (rightMoveFlag)
+                if (bodyTransform.localEulerAngles.y == 0f || bodyTransform.localEulerAngles.y == 180f)
+                    this.transform.position += new Vector3(0.1f, 0, 0);
+                else
+                    TurnTankBase(0);
+        }
     }
 
-    void TurnTankBase() // 要修正!!
+    void TurnTankBase(int num) // 要修正!!
     {
-        int dx = 0;
+        int offset = 0;
+        switch (num)
+        {
+            case 0:
+            case 4:
+                offset = 0;
+                break;
+            case 1:
+            case 5:
+                offset = 45;
+                break;
+            case 2:
+            case 6:
+                offset = 90;
+                break;
+            case 3:
+            case 7:
+                offset = 135;
+                break;
+        }
+        if ((bodyTransform.localEulerAngles.y >= offset && bodyTransform.localEulerAngles.y <= 90 + offset) || (bodyTransform.localEulerAngles.y >= 180 + offset && bodyTransform.localEulerAngles.y <= 270 + offset))
+        {
+            TurnTankBaseRight();
+        }
+        else
+        {
+            TurnTankBaseLeft();
+        }
+
+        /*if (bodyTransform.localEulerAngles.y >= 360 || bodyTransform.localEulerAngles.y <= -360)
+        {
+            bodyTransform.localEulerAngles = new Vector3(270, 0, 0);
+        }*/
+
+
+        /*int dx = 0;
         int dz = 0;
         float radian;
         if (upMoveFlag) dz += 1;
@@ -124,14 +174,17 @@ public class Tank : MonoBehaviour
 
         radian = (float)Math.Atan2(dz, dx); //回転方向のtan値計算
         radian = radian * (float)(180 / Math.PI); //角度に変換
-        Debug.Log(radian);
+        Debug.Log(radian);*/
+    }
 
-        // ここに回転処理のみを書く（到達したフラグは不要）
+    void TurnTankBaseRight()
+    {
+        bodyTransform.localEulerAngles -= new Vector3(0, 1f, 0); //回転処理
+    }
 
-        if (bodyTransform.localRotation.y != -radian + 90) //とりあえず
-            bodyTransform.localRotation = Quaternion.Euler(-90, bodyTransform.localRotation.y - 1, 0); //回転処理
-
-
+    void TurnTankBaseLeft()
+    {
+        bodyTransform.localEulerAngles += new Vector3(0, 1f, 0); //回転処理
     }
 
     void TarrotBetweenPointer() //TarrotとPointerとの角度を計算
