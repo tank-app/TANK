@@ -82,25 +82,25 @@ public class Tank : MonoBehaviour
         if (buttonCount == 2)
         {
             if (rightMoveFlag && upMoveFlag)
-                if (bodyTransform.localEulerAngles.y == 45f || bodyTransform.localEulerAngles.y == 135f)
+                if (bodyTransform.localEulerAngles.y == 315f || bodyTransform.localEulerAngles.y == 135f)
                     this.transform.position += new Vector3(0.1f / (float)Math.Sqrt(2), 0, 0.1f / (float)Math.Sqrt(2));
                 else
-                    TurnTankBase(1);
+                    TurnTankBase(7);
             else if (rightMoveFlag && downMoveFlag)
-                if (bodyTransform.localEulerAngles.y == 315f || bodyTransform.localEulerAngles.y == 135f)
+                if (bodyTransform.localEulerAngles.y == 45f || bodyTransform.localEulerAngles.y == 225f)
                     this.transform.position += new Vector3(0.1f / (float)Math.Sqrt(2), 0, -0.1f / (float)Math.Sqrt(2));
                 else
-                    TurnTankBase(7);
+                    TurnTankBase(1);
             else if (leftMoveFlag && upMoveFlag)
-                if (bodyTransform.localEulerAngles.y == 135f || bodyTransform.localEulerAngles.y == 315f)
+                if (bodyTransform.localEulerAngles.y == 45f || bodyTransform.localEulerAngles.y == 225f)
                     this.transform.position -= new Vector3(0.1f / (float)Math.Sqrt(2), 0, -0.1f / (float)Math.Sqrt(2));
                 else
-                    TurnTankBase(3);
+                    TurnTankBase(5);
             else if (leftMoveFlag && downMoveFlag)
-                if (bodyTransform.localEulerAngles.y == 225f || bodyTransform.localEulerAngles.y == 45f)
+                if (bodyTransform.localEulerAngles.y == 135f || bodyTransform.localEulerAngles.y == 315f)
                     this.transform.position -= new Vector3(0.1f / (float)Math.Sqrt(2), 0, 0.1f / (float)Math.Sqrt(2));
                 else
-                    TurnTankBase(5);
+                    TurnTankBase(3);
         }
         if (buttonCount == 1)
         {
@@ -108,12 +108,12 @@ public class Tank : MonoBehaviour
                 if (bodyTransform.localEulerAngles.y == 90f || bodyTransform.localEulerAngles.y == 270f)
                     this.transform.position += new Vector3(0, 0, 0.1f);
                 else
-                    TurnTankBase(2);
+                    TurnTankBase(6);
             else if (downMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 90f || bodyTransform.localEulerAngles.y == 270f)
                     this.transform.position -= new Vector3(0, 0, 0.1f);
                 else
-                    TurnTankBase(6);
+                    TurnTankBase(2);
             else if (leftMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 0f || bodyTransform.localEulerAngles.y == 180f)
                     this.transform.position -= new Vector3(0.1f, 0, 0);
@@ -160,9 +160,11 @@ public class Tank : MonoBehaviour
 
         /*if (bodyTransform.localEulerAngles.y >= 360 || bodyTransform.localEulerAngles.y <= -360)
         {
-            bodyTransform.localEulerAngles = new Vector3(270, 0, 0);
+            bodyTransform.localEulerAngles = new Vector3(bodyTransform.localEulerAngles.x, 0, bodyTransform.localEulerAngles.z);
         }*/
 
+        if (bodyTransform.localEulerAngles.y >= offset - 1 && bodyTransform.localEulerAngles.y <= offset + 1)
+            bodyTransform.localEulerAngles = new Vector3(bodyTransform.localEulerAngles.x, offset, bodyTransform.localEulerAngles.z);
 
         /*int dx = 0;
         int dz = 0;
