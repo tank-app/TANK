@@ -9,6 +9,7 @@ public class Tank : MonoBehaviour
     public int bulletLimit; //発射可能弾数
     public int mineLimit; //地雷設置可能数
     public float bulletSpeed = 15f; //発射される弾のスピード
+    public float tankSpeed = 1f; //タンクの移動速度
     public int ricochet; //跳弾回数
     private Transform bodyTransform; //bodyオブジェクトのTransformコンポーネント情報
     private Transform tarrotTransform; //tarrotオブジェクトのTransformコンポーネント情報
@@ -17,6 +18,7 @@ public class Tank : MonoBehaviour
     private GameObject[] bullet; //弾オブジェクト情報の格納
     private GameObject[] mine; //地雷プレハブオブジェクトの格納
     private Bullet bulletScript; //弾のスクリプト情報
+    private Rigidbody rb;
     private float t_radian; //現在のTarrotの向き
     private bool upMoveFlag = false; //上移動フラグ
     private bool rightMoveFlag = false; //右移動フラグ
@@ -28,6 +30,7 @@ public class Tank : MonoBehaviour
     {
         bullet = new GameObject[bulletLimit]; //指定個数分のインスタンスを生成
         mine = new GameObject[mineLimit]; //指定個数分のインスタンスを生成
+        rb = this.GetComponent<Rigidbody>();
         bodyTransform = this.transform.Find("Body").GetComponent<Transform>(); //BodyオブジェクトのTransformコンポーネント情報を取得
         tarrotTransform = this.transform.Find("Tarrot").GetComponent<Transform>(); //BatteryオブジェクトのTransformコンポーネント情報を取得
         shotPoint = this.transform.Find("Tarrot").Find("Canon").Find("ShotPoint").GetComponent<Transform>(); //先端の発射ポイントオブジェクトのTransformコンポーネント情報を取得
@@ -83,22 +86,22 @@ public class Tank : MonoBehaviour
         {
             if (rightMoveFlag && upMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 315f || bodyTransform.localEulerAngles.y == 135f)
-                    this.transform.position += new Vector3(0.1f / (float)Math.Sqrt(2), 0, 0.1f / (float)Math.Sqrt(2));
+                    rb.AddForce(new Vector3(tankSpeed / (float)Math.Sqrt(2), 0, tankSpeed / (float)Math.Sqrt(2)));
                 else
                     TurnTankBase(7);
             else if (rightMoveFlag && downMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 45f || bodyTransform.localEulerAngles.y == 225f)
-                    this.transform.position += new Vector3(0.1f / (float)Math.Sqrt(2), 0, -0.1f / (float)Math.Sqrt(2));
+                    rb.AddForce(new Vector3(tankSpeed / (float)Math.Sqrt(2), 0, -tankSpeed / (float)Math.Sqrt(2)));
                 else
                     TurnTankBase(1);
             else if (leftMoveFlag && upMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 45f || bodyTransform.localEulerAngles.y == 225f)
-                    this.transform.position -= new Vector3(0.1f / (float)Math.Sqrt(2), 0, -0.1f / (float)Math.Sqrt(2));
+                    rb.AddForce(new Vector3(-tankSpeed / (float)Math.Sqrt(2), 0, -tankSpeed / (float)Math.Sqrt(2)));
                 else
                     TurnTankBase(5);
             else if (leftMoveFlag && downMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 135f || bodyTransform.localEulerAngles.y == 315f)
-                    this.transform.position -= new Vector3(0.1f / (float)Math.Sqrt(2), 0, 0.1f / (float)Math.Sqrt(2));
+                    rb.AddForce(new Vector3(-tankSpeed / (float)Math.Sqrt(2), 0, tankSpeed / (float)Math.Sqrt(2)));
                 else
                     TurnTankBase(3);
         }
@@ -106,22 +109,22 @@ public class Tank : MonoBehaviour
         {
             if (upMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 90f || bodyTransform.localEulerAngles.y == 270f)
-                    this.transform.position += new Vector3(0, 0, 0.1f);
+                    rb.AddForce(new Vector3(0, 0, -tankSpeed));
                 else
                     TurnTankBase(6);
             else if (downMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 90f || bodyTransform.localEulerAngles.y == 270f)
-                    this.transform.position -= new Vector3(0, 0, 0.1f);
+                    rb.AddForce(new Vector3(0, 0, tankSpeed));
                 else
                     TurnTankBase(2);
             else if (leftMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 0f || bodyTransform.localEulerAngles.y == 180f)
-                    this.transform.position -= new Vector3(0.1f, 0, 0);
+                    rb.AddForce(new Vector3(-tankSpeed, 0, 0));
                 else
                     TurnTankBase(4);
             else if (rightMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 0f || bodyTransform.localEulerAngles.y == 180f)
-                    this.transform.position += new Vector3(0.1f, 0, 0);
+                    rb.AddForce(new Vector3(tankSpeed, 0, 0));
                 else
                     TurnTankBase(0);
         }
