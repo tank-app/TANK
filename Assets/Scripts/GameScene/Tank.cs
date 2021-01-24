@@ -9,7 +9,7 @@ public class Tank : MonoBehaviour
     public int bulletLimit; //発射可能弾数
     public int mineLimit; //地雷設置可能数
     public float bulletSpeed = 15f; //発射される弾のスピード
-    public float tankSpeed = 1f; //タンクの移動速度
+    public float tankSpeed = 10f; //タンクの移動速度
     public int ricochet; //跳弾回数
     private Transform bodyTransform; //bodyオブジェクトのTransformコンポーネント情報
     private Transform tarrotTransform; //tarrotオブジェクトのTransformコンポーネント情報
@@ -84,55 +84,59 @@ public class Tank : MonoBehaviour
 
         if (buttonCount == 2)
         {
+            rb.velocity = new Vector3(0, 0, 0);
             if (rightMoveFlag && upMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 315f || bodyTransform.localEulerAngles.y == 135f)
-                    rb.AddForce(new Vector3(tankSpeed / (float)Math.Sqrt(2), 0, tankSpeed / (float)Math.Sqrt(2)));
+                    rb.AddForce(new Vector3(tankSpeed / (float)Math.Sqrt(2), 0, tankSpeed / (float)Math.Sqrt(2)), ForceMode.VelocityChange);
                 else
                     TurnTankBase(7);
             else if (rightMoveFlag && downMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 45f || bodyTransform.localEulerAngles.y == 225f)
-                    rb.AddForce(new Vector3(tankSpeed / (float)Math.Sqrt(2), 0, -tankSpeed / (float)Math.Sqrt(2)));
+                    rb.AddForce(new Vector3(tankSpeed / (float)Math.Sqrt(2), 0, -tankSpeed / (float)Math.Sqrt(2)), ForceMode.VelocityChange);
                 else
                     TurnTankBase(1);
             else if (leftMoveFlag && upMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 45f || bodyTransform.localEulerAngles.y == 225f)
-                    rb.AddForce(new Vector3(-tankSpeed / (float)Math.Sqrt(2), 0, -tankSpeed / (float)Math.Sqrt(2)));
+                    rb.AddForce(new Vector3(-tankSpeed / (float)Math.Sqrt(2), 0, tankSpeed / (float)Math.Sqrt(2)), ForceMode.VelocityChange);
                 else
                     TurnTankBase(5);
             else if (leftMoveFlag && downMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 135f || bodyTransform.localEulerAngles.y == 315f)
-                    rb.AddForce(new Vector3(-tankSpeed / (float)Math.Sqrt(2), 0, tankSpeed / (float)Math.Sqrt(2)));
+                    rb.AddForce(new Vector3(-tankSpeed / (float)Math.Sqrt(2), 0, -tankSpeed / (float)Math.Sqrt(2)), ForceMode.VelocityChange);
                 else
                     TurnTankBase(3);
         }
         if (buttonCount == 1)
         {
+            rb.velocity = new Vector3(0, 0, 0);
             if (upMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 90f || bodyTransform.localEulerAngles.y == 270f)
-                    rb.AddForce(new Vector3(0, 0, -tankSpeed));
+                    rb.AddForce(new Vector3(0, 0, tankSpeed), ForceMode.VelocityChange);
                 else
                     TurnTankBase(6);
             else if (downMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 90f || bodyTransform.localEulerAngles.y == 270f)
-                    rb.AddForce(new Vector3(0, 0, tankSpeed));
+                    rb.AddForce(new Vector3(0, 0, -tankSpeed), ForceMode.VelocityChange);
                 else
                     TurnTankBase(2);
             else if (leftMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 0f || bodyTransform.localEulerAngles.y == 180f)
-                    rb.AddForce(new Vector3(-tankSpeed, 0, 0));
+                    rb.AddForce(new Vector3(-tankSpeed, 0, 0), ForceMode.VelocityChange);
                 else
                     TurnTankBase(4);
             else if (rightMoveFlag)
                 if (bodyTransform.localEulerAngles.y == 0f || bodyTransform.localEulerAngles.y == 180f)
-                    rb.AddForce(new Vector3(tankSpeed, 0, 0));
+                    rb.AddForce(new Vector3(tankSpeed, 0, 0), ForceMode.VelocityChange);
                 else
                     TurnTankBase(0);
         }
+        if (buttonCount == 0) rb.velocity = new Vector3(0, 0, 0);
     }
 
     void TurnTankBase(int num) // 要修正!!
     {
         int offset = 0;
+        rb.velocity = new Vector3(0, 0, 0);
         switch (num)
         {
             case 0:
