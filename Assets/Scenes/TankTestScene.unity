@@ -580,6 +580,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7456393361079688147, guid: bf6930852bd489342b1b5d40b6f60506,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7456393362088817170, guid: bf6930852bd489342b1b5d40b6f60506,
         type: 3}
       propertyPath: m_Name
@@ -1128,9 +1133,11 @@ MonoBehaviour:
   playerFlag: 1
   bulletPrefab: {fileID: 3181653842172413539, guid: 0ffe15d96fd67d04db2b552199535cca,
     type: 3}
+  minePrefab: {fileID: 0}
   bulletLimit: 5
   mineLimit: 2
   bulletSpeed: 42
+  tankSpeed: 10
   ricochet: 2
 --- !u!54 &1324680552538683818
 Rigidbody:
@@ -1144,9 +1151,9 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &1617556542501544094
 GameObject:
@@ -1181,7 +1188,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324680552538683815}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 15, y: 0, z: 50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1189,7 +1196,7 @@ Transform:
   - {fileID: 1190240686215676050}
   m_Father: {fileID: 0}
   m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &2079555285652242619
 MeshFilter:
   m_ObjectHideFlags: 0

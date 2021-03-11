@@ -23,7 +23,7 @@ public class RayCaster : MonoBehaviour
             //レイが当たった位置を得るよ
             Vector3 pos = hit.point;
             pos = new Vector3(pos.x, 2.46f, pos.z);
-            Debug.Log(pos);
+            //Debug.Log(pos);
             this.transform.position = pos;
         }
         /*var distance = Vector3.Distance(mainCamera.transform.position, raycastHit.origin);
