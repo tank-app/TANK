@@ -6,7 +6,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // CSVのファイル名
-    int[][] field = new int[17][]; //行,列の順
+    [SerializeField] string fileName = "mission1.csv";
+    public int[][] mapData = new int[17][]; //行,列の順
 
     // CSVを配列に読み込む関数
     void csvReader(string csvFileName)
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
                 // int配列に変換
                 int[] intValues = Array.ConvertAll(strValues, int.Parse);
                 // int配列をstring配列配列のi行目に代入
-                field[i] = intValues;
+                mapData[i] = intValues;
                 // 次の行へ
                 i++;
             }
@@ -32,15 +33,10 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 17; i++)
             for (int j = 0; j < 22; j++)
-                Debug.Log(field[i][j]);
+                Debug.Log(mapData[i][j]);
     }
     void Start()
     {
-        csvReader("Assets/Resources/CSV/mission1.csv");
-    }
-
-    void Update()
-    {
-
+        csvReader("Assets/Resources/CSV/" + fileName);
     }
 }
