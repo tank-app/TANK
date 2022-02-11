@@ -34,4 +34,9 @@ public class Mine : MonoBehaviour
         Debug.Log("Bomb!"); //ログ出力
     }
 
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.CompareTag("Bullet")) Explosion();
+    }
+
 }
