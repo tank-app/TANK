@@ -3,19 +3,8 @@ using UnityEngine;
 
 public class WeakWall : MonoBehaviour
 {
-    void Start()
+    void OnTriggerEnter(Collider collider) //爆風との衝突を検知
     {
-
+        if (collider.CompareTag("Mine")) Destroy(this.gameObject); //破壊
     }
-
-    void Update()
-    {
-
-    }
-
-    void OnCollisionEnter(Collision collision) //壁との衝突をみる
-    {
-        if (collision.gameObject.tag == "Bullet") Destroy(this.gameObject); //破壊
-    }
-
 }
