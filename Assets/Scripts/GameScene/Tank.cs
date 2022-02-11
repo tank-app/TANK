@@ -219,7 +219,7 @@ public class Tank : MonoBehaviour
         {
             if (bullet[i] == null) //弾の発射数が限度に達していないか確認
             {
-                bullet[i] = Instantiate(bulletPrefab, new Vector3(x, 0, z), new Quaternion(0, 0, 0, 0)); //配列の空き番号に弾を格納
+                bullet[i] = Instantiate(bulletPrefab, new Vector3(x, 1.27f, z), new Quaternion(0, 0, 0, 0)); //配列の空き番号に弾を格納
                 bulletScript = bullet[i].GetComponent<Bullet>(); //発射した弾のスクリプト情報を取得
                 bulletScript.Shot(speed, radian, rico); //発射関数実行
                 //Debug.Log("bullet " + i + " instantiated succesfully!"); //ログ
